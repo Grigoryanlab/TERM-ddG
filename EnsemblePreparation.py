@@ -34,7 +34,7 @@ else:
 sub.call(['perl', '-w', SB + '/copyDBLocally.pl', '-n', removePath(args.db), '-l', args.db+'/list'])
 
 # open the sequence database
-path_seqdb = '/home/grigoryanlab/home/jack/from-fan/Data/searchDB/statistics/bc-30-sc-20141022.peprm2.db'
+path_seqdb = '/home/ifsdata/grigoryanlab/home/coy/stability/bc-30-sc-20141022.peprm2.db'
 seqdb = shelve.open(path_seqdb)
 
 
