@@ -4,7 +4,8 @@ naa =20;
 nc = length(condegree);
 bconpot = zeros(naa * naa * nc, 1);
 
-if ~isempty(conpot)
+print(conpot)
+if exist(conpot, 'file') == 1
 	conbin = [0.02 0.05 0.1 0.2 0.5 1];
 	conpotfiles = textscan(fopen(conpot), '%s');
 	conpots = cell(5, 1);
