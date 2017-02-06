@@ -123,5 +123,5 @@ for d in dirs:
 Cluster.waitJobs(jobs, giveup_time=0, sleep_time=5)
 
 # score
-#outputscore(args.l, args.o, scan, bg)
+outputscore(args.l, args.o, scan, bg)
 
