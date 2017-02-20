@@ -35,7 +35,7 @@ sub.call(['perl', '-w', SB + '/copyDBLocally.pl', '-n', removePath(args.db), '-l
 
 # open the sequence database
 path_seqdb = '/home/ifsdata/grigoryanlab/home/jack/from-fan/Data/searchDB/support_bc_30-sc-correct-20141022/bc-30-sc-20141022-peprm.db'
-seqdb = shelve.open(path_seqdb)
+seqdb = shelve.open(path_seqdb, 'r')
 
 
 # run MASTER search
