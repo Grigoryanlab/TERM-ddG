@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(1, '/home/ifsdata/grigoryanlab/library/FanPythonMods/') # needed to find General if FanPythonMods is not already in the user's path
 from General import *
 import Master, Stability, Cluster, Analyze
 import pickle, shelve #  for sharing params
