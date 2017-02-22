@@ -154,7 +154,7 @@ Ncon = 2
 while Ncon <= args.c3:
 	positions_copy = [x for x in positions]
 	while len(positions_copy) > 0:
-		time.sleep(0.5*len(positions_copy))
+		time.sleep(1)
 		for pos in positions_copy:
 			os.chdir(odir)
 			os.chdir(pos)
