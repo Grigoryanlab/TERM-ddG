@@ -1,4 +1,4 @@
-use lib '/home/grigoryanlab/library/ProCEDe/branches/gevorg-branch/modules/'
+use lib '/home/grigoryanlab/library/ProCEDe/branches/gevorg-branch/modules/';
 use GENERAL;
 use Getopt::Long;
 use File::Path;
