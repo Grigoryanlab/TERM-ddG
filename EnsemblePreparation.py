@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(1, '/home/ifsdata/grigoryanlab/library/FanPythonMods/') # needed to find General if FanPythonMods is not already in the user's path
+sys.path.insert(1, '/home/grigoryanlab/library/FanPythonMods/') # needed to find General if FanPythonMods is not already in the user's path
 from General import *
 import Master, Stability, Cluster, Analyze
 import pickle, shelve #  for sharing params
@@ -36,7 +36,7 @@ else:
 sub.call(['perl', '-w', SB + '/copyDBLocally.pl', '-n', removePath(args.db), '-l', args.db+'/list'])
 
 # open the sequence database
-path_seqdb = '/home/ifsdata/grigoryanlab/home/jack/from-fan/Data/searchDB/support_bc_30-sc-correct-20141022/bc-30-sc-20141022-peprm.db'
+path_seqdb = '/home/grigoryanlab/home/jack/from-fan/Data/searchDB/support_bc_30-sc-correct-20141022/bc-30-sc-20141022-peprm.db'
 seqdb = shelve.open(path_seqdb, 'r')
 
 

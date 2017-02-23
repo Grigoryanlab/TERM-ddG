@@ -1,7 +1,7 @@
 __author__ = 'fanzheng'
 
 import sys
-sys.path.insert(1, '/home/ifsdata/grigoryanlab/library/FanPythonMods/') # needed to find General if FanPythonMods is not already in the user's path
+sys.path.insert(1, '/home/grigoryanlab/library/FanPythonMods/') # needed to find General if FanPythonMods is not already in the user's path
 from General import *
 import Terms, Master, Stability, Cluster, Analyze
 import pickle, itertools
@@ -11,7 +11,7 @@ SB = selfbin(sys.argv[0])
 par = argparse.ArgumentParser()
 par.add_argument('--l', required = True, help = 'a list of mutations')
 par.add_argument('--i', default = os.getcwd(), help = 'the directory to find the input structures')
-par.add_argument('--db', default = '/home/ifsdata/grigoryanlab/home/jack/from-fan/Data/searchDB/bc-30-sc-20141022-newpds/', help = 'the directory of the searching database')
+par.add_argument('--db', default = '/home/grigoryanlab/home/jack/from-fan/Data/searchDB/bc-30-sc-20141022-newpds/', help = 'the directory of the searching database')
 par.add_argument('--dbl', help = 'list of the searching database')
 par.add_argument('--he', default='nr', help = 'the header of the output files')
 par.add_argument('--homof', help='the file with homologous information')
