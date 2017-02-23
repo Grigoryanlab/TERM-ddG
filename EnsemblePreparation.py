@@ -4,6 +4,9 @@ from General import *
 import Master, Stability, Cluster, Analyze
 import pickle, shelve #  for sharing params
 
+from socket import gethostname
+print('Node: %s' % gethostname())
+
 SB = selfbin(sys.argv[0])
 par = argparse.ArgumentParser()
 # inherit the parameter space from mutationListIteration.py
@@ -33,7 +36,9 @@ if args.dbl == None:
 	dblist = args.db + '/list'
 else:
 	dblist = args.dbl
-sub.call(['perl', '-w', SB + '/copyDBLocally.pl', '-n', removePath(args.db), '-l', args.db+'/list'])
+if sub.call(['perl', '-w', SB + '/copyDBLocally.pl', '-n', removePath(args.db), '-l', args.db+'/list']):
+	print('Error copying the master DB locally - aborting!')
+	exit(1)
 
 # open the sequence database
 path_seqdb = '/home/grigoryanlab/home/jack/from-fan/Data/searchDB/support_bc_30-sc-correct-20141022/bc-30-sc-20141022-peprm.db'
@@ -85,5 +90,6 @@ for i in range(len(args.p)):
 	shutil.move(nseqf, odir+'/'+nseqf)
 	shutil.move(nmatchf, odir+'/'+nmatchf)
 
+Cluster.destroyLocalSpace(ldir)
 os.chdir(odir)
 os.system('touch .finished.'+args.ncon)

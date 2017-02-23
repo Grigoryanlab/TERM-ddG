@@ -8,8 +8,7 @@ umask 0002;                 # make sure all output is readible/writeable by grou
 my $grp = "grigoryanlab";   # group name under which everything will be created
 
 # create a local path if needed
-my $user = $ENV{'USER'};
-my $loc = "/data/scratch/$user/localDBs";
+my $loc = "/data/scratch/grigoryanlab/localDBs";
 if (! -d $loc) {
   File::Path::make_path($loc, {group => $grp});
   GENERAL::csystem("chmod g+s $loc");                    # set the sticky bit for the group
