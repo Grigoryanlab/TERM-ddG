@@ -1,4 +1,11 @@
-function [ leftMat, rightVec, defaultParams, paramsUsage, conresidUsed] = loadSearchData( folder, header, conpot )
+function [ leftMat, rightVec, defaultParams, paramsUsage, conresidUsed] = loadSearchData( folder, header, conpot, highestOrderTerm )
+
+for i = 1:highestOrderTerm
+    finishedFile = sprintf('%s/.finished.%d', folder, i);
+    if ~exist(finishedFile)
+        error('It does not look like every search was finished successfully - %s was not found, meaning the job searching for sub-terms of order %d did not report success', finishedFile, i)
+    end
+end
 
 maxC = 2;
 %cd(folder);

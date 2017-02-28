@@ -216,4 +216,7 @@ while Ncon <= args.c3:
 	Ncon +=1
 
 # wait all jobs to finish
-Cluster.waitJobs(jobs, type='dict', giveup_time=1, sleep_time=0)
+success = Cluster.waitJobs(jobs, type='dict', giveup_time=1, sleep_time=0)
+if not success:
+    print('ERROR: Some scripts did not run successfully')
+    exit(1)
