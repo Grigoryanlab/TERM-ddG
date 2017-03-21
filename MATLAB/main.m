@@ -1,4 +1,4 @@
-function [optParams] = main(dirname, header, outFile, lambda, noprior, parUse, contactPotential, highestOrderTerm)
+function [optParams] = main(dirname, header, outFile, lambda, noprior, parUse, contactPotential)
 
 naa = 20;
 
@@ -16,7 +16,7 @@ if ~isempty(contactPotential)
     conpot = contactPotential;
 end
 
-[leftMat, rightVec, defaultParams, paramsUsage, ~] = loadSearchData(dirname, header, conpot, highestOrderTerm);
+[leftMat, rightVec, defaultParams, paramsUsage, ~] = loadSearchData(dirname, header, conpot);
 
 %% if don't use contact potential prior
 if ~isempty(noprior)

@@ -23,7 +23,7 @@ args = par.parse_args()
 
 # save input argument
 argdict = vars(args)
-os.system('rm *.pkl')
+os.system('rm -f *.pkl')
 pklname = str(os.getpid()) + '.shared.pkl'
 pklpath = os.path.realpath(pklname)
 pkl = open(pklname, 'w')
@@ -72,7 +72,9 @@ pos2pdb = {}
 odir = os.getcwd()
 for pos in positions:
 	os.chdir(odir)
-	if not os.path.isdir(pos):
+	if os.path.isdir(pos):
+		os.system('rm -rf %s/*' % pos)
+	else:
 		os.mkdir(pos)
 	os.chdir(pos)
 	pid, ipos = pos.split('_')
@@ -141,7 +143,10 @@ for pos in positions:
 
 	# create job object
 	jobid = pos + '.1'
-	job = Cluster.jobOnCluster([cmd], jobid, odir+'/'+pos + '/.finished.1')
+	startedfile = '%s/%s/.started.1' % (odir, pos)
+	finishedfile = '%s/%s/.finished.1' % (odir, pos)
+	os.system('touch %s' % startedfile)
+	job = Cluster.jobOnCluster([cmd], jobid, finishedfile)
 	jobs[jobid] = job
 	job.submit(3)
 	time.sleep(0.5)
@@ -209,7 +214,10 @@ while Ncon <= args.c3:
 						cmd = ' '.join(cmd)
 
 						new_jobid = pos+'.'+str(Ncon)
-						job = Cluster.jobOnCluster([cmd], new_jobid, odir+'/'+pos + '/.finished.'+str(Ncon))
+						startedfile = '%s/%s/.started.%d' % (odir, pos, Ncon)
+						finishedfile = '%s/%s/.finished.%d' % (odir, pos, Ncon)
+						os.system('touch %s' % startedfile)
+						job = Cluster.jobOnCluster([cmd], new_jobid, finishedfile)
 						jobs[new_jobid] = job
 						job.submit(3)
 						time.sleep(0.5)

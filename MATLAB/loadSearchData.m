@@ -1,9 +1,10 @@
-function [ leftMat, rightVec, defaultParams, paramsUsage, conresidUsed] = loadSearchData( folder, header, conpot, highestOrderTerm )
+function [ leftMat, rightVec, defaultParams, paramsUsage, conresidUsed] = loadSearchData( folder, header, conpot )
 
-for i = 1:highestOrderTerm
-    finishedFile = sprintf('%s/.finished.%d', folder, i);
-    if ~exist(finishedFile)
-        error('It does not look like every search was finished successfully - %s was not found, meaning the job searching for sub-terms of order %d did not report success', finishedFile, i)
+startedfiles = dir(sprintf('%s/.started.*', folder));
+for i = 1:length(startedfiles)
+    finishedfile = sprintf('%s/%s', folder, strrep(startedfiles(i).name, 'start', 'finish'));
+    if ~exist(finishedfile)
+        error('It does not look like every search was finished successfully - %s was found but %s was not, meaning not all jobs in the %s folder reported success', startedfile, finishedfile, folder)
     end
 end
 
