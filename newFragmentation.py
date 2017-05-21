@@ -10,9 +10,9 @@ SB = selfbin(sys.argv[0])
 par = argparse.ArgumentParser()
 par.add_argument('--i', required=True, help='input PDB file')
 par.add_argument('--homof', help='the file with homologous information')
-par.add_argument('--db', default = '/home/anthill/fzheng/ironfs/searchDB/bc-30-sc-20141022-newpds', help = 'the directory of the searching database')
+par.add_argument('--db', default = '/home/grigoryanlab/home/jack/from-fan/Data/searchDB/bc-30-sc-20141022-newpds/', help = 'the directory of the searching database')
 par.add_argument('--dbl', help = 'list of the searching database')
-par.add_argument('--he', help = 'the header of the output files')
+par.add_argument('--he', default='nr', help = 'the header of the output files')
 par.add_argument('--c1', default = 20000, type = int, help = 'cutoff for top N matches')
 par.add_argument('--c2', default = 100, type = int, help = 'the criteria of increasing the order of sub-TERMs')
 par.add_argument('--c3', default = 2, type = int, help = 'the maximum order of sub-TERMs to consider')
@@ -59,7 +59,7 @@ dirname = removePath(getBase(args.i))
 selfts = []
 # search all local fragments
 for n in G.nodes():
-	if n in target_residues:
+	if n in True:#target_residues:
 	    t = Terms.Term(parent=args.i, seed=n)
 	    t.makeFragment(flank=2)
 	    selfts.append(t)
