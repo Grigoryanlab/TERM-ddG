@@ -93,6 +93,7 @@ os.chdir(odir)
 # recursive fragmentation and master search
 jobs = {}
 
+valid_positions = []
 for pos in positions:
 	os.chdir(odir)
 	os.chdir(pos)
@@ -109,7 +110,10 @@ for pos in positions:
 	# create self term without contact
 	selfterm = Terms.Term(parent=parentpdb,
 					   seed=seed)
-	selfterm.makeFragment(flank=2)
+	if selfterm.makeFragment(flank=2) == -1:
+		continue
+	else:
+		valid_positions.append(pos)
 	iTerms.append(selfterm)
 
 	# create pair term with 1 contact
@@ -150,14 +154,13 @@ for pos in positions:
 	jobs[jobid] = job
 	job.submit(3)
 	time.sleep(0.5)
-
 os.chdir(odir)
 
 # now considering higher-order fragments
 Ncon = 2
 
 while Ncon <= args.c3:
-	positions_copy = [x for x in positions]
+	positions_copy = [x for x in valid_positions]
 	while len(positions_copy) > 0:
 		time.sleep(1)
 		for pos in positions_copy:
