@@ -12,7 +12,8 @@ def main():
 			f.write(output)
 	except:
 		error('Error writing to %s' % output_file)
-	os.remove(temp_file)
+	finally:
+		os.remove(temp_file)
 
 def error(message):
 	print(message)
