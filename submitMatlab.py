@@ -20,6 +20,7 @@ par.add_argument('--o', required = True, help = 'output file, for the result of 
 par.add_argument('--oo', action = 'store_true', help = 'if true, the matlab files already exists and only output the results')
 par.add_argument('--scan', action = 'store_true', help = 'if true, will output all amno acids' )
 par.add_argument('--bg', action='store_true', help = 'if true, will modify EPs by background parameters')
+par.add_argument('--full', action='store_true', help = 'if true, will submit MATLAB scripts in the format expected by the fullProtein scripts')
 args = par.parse_args()
 
 def outputscore(mutlist, output, scan =0, bg =0):
@@ -113,7 +114,10 @@ for d in dirs:
     if os.path.isfile(d + '/' + d + '.' + args.ext + '.mat'):
         continue
     cmds = []
-    cmds.append(' '.join(['matlab', '-nodisplay', '-nojvm', '-r', '"addpath(\'' + args.path + '\');main(\'' + d + '\',\'' + args.head + '\',\'' + d + '/' + d + '.' + args.ext + '\',' + args.lamb + ',' + noprior + ',' + puse + ',\'' + args.conpot + '\');\"']))
+    if args.full:
+        cmds.append(' '.join(['matlab', '-nodisplay', '-nojvm', '-r', '"addpath(\'' + args.path + '\');main(\'' + args.head + '\',\'' + d + '/' + d + '.' + args.ext + '\',' + args.lamb + '\');\"']))
+    else:
+        cmds.append(' '.join(['matlab', '-nodisplay', '-nojvm', '-r', '"addpath(\'' + args.path + '\');main(\'' + d + '\',\'' + args.head + '\',\'' + d + '/' + d + '.' + args.ext + '\',' + args.lamb + ',' + noprior + ',' + puse + ',\'' + args.conpot + '\');\"']))
 
     if not args.puse:
         job = Cluster.jobOnCluster(cmds, d, d + '/' + d + '.' +args.ext+'.mat')
@@ -126,7 +130,8 @@ success = Cluster.waitJobs(jobs, giveup_time=1, sleep_time=5)
 
 # score
 if success:
-	outputscore(args.l, args.o, scan, bg)
+    if not args.full:
+		outputscore(args.l, args.o, scan, bg)
 else:
 	print('ERROR: The MATLAB script did not run successfully')
 	exit(1)
