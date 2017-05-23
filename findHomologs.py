@@ -3,10 +3,10 @@ sys.path.insert(1, '/home/grigoryanlab/library/FanPythonMods/') # needed to find
 from Analyze import createHomoProfile
 
 def main():
-	fasta_file, chain, output_file = getArgs()
+	fasta_file, pdb_id, chain, output_file = getArgs()
 	temp_file = '%s.tmp' % output_file
 	createHomoProfile(fasta_file, temp_file)
-	output = parseHomoProfileOutput(temp_file, chain)
+	output = parseHomoProfileOutput(temp_file, pdb_id, chain)
 	try:
 		with open(output_file, 'w') as f:
 			f.write(output)
@@ -22,19 +22,21 @@ def error(message):
 def getArgs():
 	args = sys.argv
 	num_args = len(args)
-	if num_args != 4:
-		error('Usage: python findHomologs.py FASTA_FILE CHAIN OUTPUT_FILE')
-	fasta_file, chain, output_file = args[1:4]
-	return fasta_file, chain, output_file
+	if num_args != 5:
+		error('Usage: python findHomologs.py FASTA_FILE PDB_ID CHAIN OUTPUT_FILE')
+	fasta_file, pdb_id, chain, output_file = args[1:5]
+	return fasta_file, pdb_id, chain, output_file
 
-def parseHomoProfileOutput(temp_file, chain):
+def parseHomoProfileOutput(temp_file, pdb_id, chain):
 	try:
 		with open(temp_file, 'r') as f:
 			lines = map(lambda line: line.strip(), f.readlines())
 			chain_lines = filter(lambda line: chainInLine(line)==chain, lines)
 			last_chain_line = chain_lines[-1]
 			fields = last_chain_line.split(' ')
-			pdbs = ' '.join(fields[1:])
+			pdb = '%s_%s' % (pdb_id, chain)
+			homologous_pdbs = ' '.join(fields[1:])
+			pdbs = '%s %s' % (pdb, homologous_pdbs)
 			return pdbs
 	except:
 		error('Error opening the temp file %s' % temp_file)
