@@ -11,9 +11,19 @@ This package is the source codes for a method predicting the effects of amino-ac
 
 This package is written in both Python and MATLAB and works under UNIX/Linux environments. We tested our codes with Python 2.7 and MATLAB 2015b.
 
-SciPy (https://www.scipy.org/), ProDy (http://prody.csb.pitt.edu/downloads/), and USEARCH8.0 (http://www.drive5.com/usearch/download.html) need to be installed to run the codes properly. Set path to USEARCH executable `PATH_usearch` in `modules/General.py` after obtaining it. Other tools from our previous work have been compiled and included in this package.
+SciPy (https://www.scipy.org/), ProDy (http://prody.csb.pitt.edu/downloads/), and USEARCH8.0 (http://www.drive5.com/usearch/download.html) need to be installed to run the codes properly. Set path to USEARCH executable `PATH_usearch` in `modules/General.py` after obtaining it. **Other tools from our previous work have been compiled and included in this package. (not true for now)**
 
 For the current version, we assume the users are familiar with, and have access to Sun Grid Engine (SGE) computing clusters. The commands for submitting computing jobs may vary from cluster to cluster. To adapt the commands to your specific cluster environment, go to `modules/Cluster.py` and make change under the function `qsub`.
+
+MASTER (Method of Accerlerated Search for Tertiary Ensemble Representatives), see details at http://www.grigoryanlab.org/master/.
+
+> For our paper, we have parsed the Protein Data Bank (PDB) and created a database that enables the MASTER program to search the tertiary motifs in the queried structure. The original database can be found at: (**to be finished by glab**). One can also follow our protocol at https://vimeo.com/120274509 to customize the database, such as limiting search in a subset of the PDB, or simply update the database with the latest PDB data. Once the database has been prepared, users should make sure the `--db` argument in `mutationListIteration.py` point to the path of the database.
+
+confind, a program using a Rotamer Library to define the contacting residue pairs (**to be finished by glab**)
+
+> confind comes with a rotamer library, which can be found at: (**glab**) 
+
+Once the required programs and data sources are installed, their paths should be updated in the "Interface" section of `GENERAL.py`.
 
 ## Get started
 
@@ -27,7 +37,8 @@ An example of program output can be found in `data_demo`. The following instruct
 
 3. Run the following command:  
  `python mutationListIteration.py --l 1EY0.s350.tab --homof S2648.homo`
-> We recommend to have a file to keep track of the PDB structures that have homologous relationships to the query protein. These PDB structures will be excluded from statistics of structure motif search. Otherwise, we believe the results will be biased. Please see the details in our paper. That is the purpose of the `--homof` flag. In `1EY0.homo` the PDB IDs following `1EY0_A` are excluded. Such results can be created from NCBI `blastpgb` program. The list here includes all PDB chains that are similar to `1EY0_A` at a cutoff e=1.0, which is consistent to our paper.
+
+> We recommend to have a file to keep track of the PDB structures that have homologous relationships to the query protein. These PDB structures will be excluded from statistics of structure motif search. Otherwise, we believe the results will be biased. Please see the details in our paper. That is the purpose of the `--homof` flag. In `1EY0.homo` the PDB IDs following `1EY0_A` are excluded. Such results can be created from NCBI `blastpgb` program. The list here includes all PDB chains that are similar to `1EY0_A` at a cutoff e=1.0, which is consistent to our paper. This step requires a sequence database corresponding to the set of structures used in MASTER search. The sequence database can be downloaded at: (**glab**). After downloaded, the `path_seqdb` variable in the `EnsemblePreparaton.py` needs to be changed. 
 
 4. Upon finishing the previous command, run:  
  `python submitMatlab.py --l 1EY0.s350.tab --o 1ey0.dat`  
