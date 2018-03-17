@@ -104,27 +104,22 @@ def carefulImport(mod):
         print('Warning:' + mod + ' is not an existing module')
     return found
 
+#PATH_blast = '/home/grigoryanlab/library/blast/blast-2.2.26/bin'
+#PATH_termaster = ''
+#PATH_namd = '/home/grigoryanlab/library/bin/namd2'
+#PATH_charmm = '/home/grigoryanlab/library/bin/charmrun'
+#PATH_vmd = '/home/grigoryanlab/local/bin/vmd'
+#PATH_rosetta = '/home/anthill/fzheng/home/rosetta2014'
+#PATH_pyrosetta = '/home/anthill/fzheng/home/software/PyRosetta.ScientificLinux-r56316.64Bit'
+#PATH_fpddemo = '/home/anthill/fzheng/home/software/FlexPepDock_AbInitio'
+#PATH_thesisData = '/home/anthill/fzheng/home/Thesis/Data'
+
+
 ### Interface ###
 # provide interface to other programs at steady paths, such as MASTER, MD, confind, Rosetta, etc.
-
-PATH_blast = '/home/grigoryanlab/library/blast/blast-2.2.26/bin'
 PATH_confind = '/home/anthill/fzheng/home/confind/confind'
 PATH_master = '/home/grigoryanlab/library/MASTER/bin'
 PATH_rotLib = '/home/grigoryanlab/library/confind/rotlibs/DB-2010'
-PATH_termaster = ''
-PATH_usearch = '/home/anthill/fzheng/home/software/usearch8.0' # usearch is a software to cluster sequence based on sequence identity and remove redundancy
+PATH_usearch = '/home/anthill/fzheng/home/software/usearch8.0'
 
-
-PATH_namd = '/home/grigoryanlab/library/bin/namd2'
-PATH_charmm = '/home/grigoryanlab/library/bin/charmrun'
-PATH_vmd = '/home/grigoryanlab/local/bin/vmd'
-
-
-PATH_rosetta = '/home/anthill/fzheng/home/rosetta2014'
-PATH_pyrosetta = '/home/anthill/fzheng/home/software/PyRosetta.ScientificLinux-r56316.64Bit'
-PATH_fpddemo = '/home/anthill/fzheng/home/software/FlexPepDock_AbInitio'
-
-
-# thesis directory
-PATH_thesisData = '/home/anthill/fzheng/home/Thesis/Data'
 

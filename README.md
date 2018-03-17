@@ -32,8 +32,8 @@ An example of program output can be found in `data_demo`. The following instruct
 1. Prepare a PDB file for the protein to be predicted. For example, `1EY0.pdb`.
 
 2. Prepare a list of point mutations. For example, `1EY0.s350.tab`. The file is a tab-delimited file, and it should conform the following format:  
-  `PDB_id Chain_id Wild_type_aa Position Mutant_aa`  
-  and the first column should agree with the name of the PDB file. For example, if the elements in the first column are `1EY0` then the PDB file should be named `1EY0.pdb`.
+  `PDB_id Chain_id Wild_type_aa Position Mutant_aa experimental_ddG`  
+  and the first column should agree with the name of the PDB file. For example, if the elements in the first column are `1EY0` then the PDB file should be named `1EY0.pdb` (no underscores).
 
 3. Run the following command:  
  `python mutationListIteration.py --l 1EY0.s350.tab --homof S2648.homo`

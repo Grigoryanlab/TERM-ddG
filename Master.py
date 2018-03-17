@@ -18,7 +18,9 @@ def createPDS(mbin = PATH_master, dry = False, **kwargs):
     if dry == True:
         return ' '.join(cmd)
     else:
-        sub.call(cmd)
+#        devnull = open(os.devnull, 'w')
+        sub.call(cmd, stdout=devnull)
+#        devnull.close()
         
 
 def masterSearch (mbin = PATH_master, dry = False, rmsdcut = 2.0, bbrmsd = True, **kwargs):
@@ -36,7 +38,9 @@ def masterSearch (mbin = PATH_master, dry = False, rmsdcut = 2.0, bbrmsd = True,
     if dry == True:
         return ' '.join(cmd)
     else:
-        sub.call(cmd)
+#        devnull = open(os.devnull, 'w')
+        sub.call(cmd, stdout=devnull)
+#        devnull.close()
 
 
 def matchInFile(mbin = PATH_master, dry = False, otype = 'match', **kwargs):

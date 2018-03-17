@@ -11,7 +11,7 @@ par = argparse.ArgumentParser()
 par.add_argument('--l', required = True, help = 'a list of mutations')
 par.add_argument('--path', default= SB +'/MATLAB', help = 'the path for MATLAB scripts')
 par.add_argument('--head', default = 'nr', help = 'header of the .seq files')
-par.add_argument('--ext', required = True, help = 'the extension of the output .mat file')
+par.add_argument('--ext', default = 'm', help = 'the extension of the output .mat file')
 par.add_argument('--lamb', default = '[]', help = 'control the stength of constraint')
 par.add_argument('--noprior', action = 'store_true', help = 'whether use prior')
 par.add_argument('--puse', action = 'store_true', help = 'if true, only load the data and output parameter usage')
@@ -115,9 +115,9 @@ for d in dirs:
         continue
     cmds = []
     if args.full:
-        cmds.append(' '.join(['matlab', '-nodisplay', '-nojvm', '-r', '"addpath(\'' + args.path + '\');main(\'' + args.head + '\',\'' + d + '/' + d + '.' + args.ext + '\',' + args.lamb + '\');\"']))
+        cmds.append(' '.join(['matlab', '-nodisplay', '-nojvm', '-r', '"addpath(\'' + args.path + '\');main(\'' + args.head + '\',\'' + d + '/' + d + '.' + args.ext + '\',' + args.lamb + '\');quit\"']))
     else:
-        cmds.append(' '.join(['matlab', '-nodisplay', '-nojvm', '-r', '"addpath(\'' + args.path + '\');main(\'' + d + '\',\'' + args.head + '\',\'' + d + '/' + d + '.' + args.ext + '\',' + args.lamb + ',' + noprior + ',' + puse + ',\'' + args.conpot + '\');\"']))
+        cmds.append(' '.join(['matlab', '-nodisplay', '-nojvm', '-r', '"addpath(\'' + args.path + '\');main(\'' + d + '\',\'' + args.head + '\',\'' + d + '/' + d + '.' + args.ext + '\',' + args.lamb + ',' + noprior + ',' + puse + ',\'' + args.conpot + '\');quit\"']))
 
     if not args.puse:
         job = Cluster.jobOnCluster(cmds, d, d + '/' + d + '.' +args.ext+'.mat')

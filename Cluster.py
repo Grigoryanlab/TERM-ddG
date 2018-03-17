@@ -11,15 +11,44 @@ class jobOnCluster:
         self.tried = 0
         self.myid = myid  # this is an easy identifier (usually a string) for user to determine where problems come from
         self.label = label  # this is a file indicate whether the job has finished
+        self.type = 'local' # set to SGE to use Sun Grid Engine
 
     def submit(self, time):
-        self.jobid = qsub(self.cmds, hrs=int(time))
-        self.running = 1
-        self.tried += 1
+        if (self.type == 'sge'):
+          self.jobid = qsub(self.cmds, hrs=int(time))
+          self.running = 1
+          self.tried += 1
+        elif (self.type == 'local'):
+          self.jobid = "\n".join(self.cmds)
+          self.err = os.system("\n".join(self.cmds))
+          self.running = 0
+          self.tried += 1
 
     def checkjob(self):
-        if checkJobRun(self.jobid) == 0:
+        if self.checkJobRun() == 0:
             self.running = 0
+
+    def checkJobRun(self):
+        if (self.type == 'sge'):
+          while True:
+              try:
+                  out = sub.check_output('qstat', stderr=sub.STDOUT, shell=True)
+                  break
+              except:
+                  time.sleep(5)
+                  continue
+          if out == None:
+              return 0
+          out = out.split('\n')
+          for l in out:
+              arr = l.split()
+              if arr == []:
+                  continue
+              if (arr[0] == self.jobid) and (not arr[4] in ['dr']):
+                  return 1
+          return 0
+        elif (self.type == 'local'):
+          return self.err
 
     def checkfinish(self):  # label is a file when it exists it means the job has finished
         if os.path.isfile(self.label) == True:
@@ -136,26 +165,6 @@ def parseJobID(string):
     id = re.search('job\s(\d+)', string)
     if id != None:
         return id.group(1)
-
-
-def checkJobRun(jid):
-    while True:
-        try:
-            out = sub.check_output('qstat', stderr=sub.STDOUT, shell=True)
-            break
-        except:
-            time.sleep(5)
-            continue
-    if out == None:
-        return 0
-    out = out.split('\n')
-    for l in out:
-        arr = l.split()
-        if arr == []:
-            continue
-        if (arr[0] == jid) and (not arr[4] in ['dr']):
-            return 1
-    return 0
 
 
 def createLocalSpace(user=''):
