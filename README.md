@@ -13,15 +13,15 @@ This package is written in both Python and MATLAB and works under UNIX/Linux env
 
 SciPy (https://www.scipy.org/), ProDy (http://prody.csb.pitt.edu/downloads/), and USEARCH8.0 (http://www.drive5.com/usearch/download.html) need to be installed to run the codes properly. Set path to USEARCH executable `PATH_usearch` in `modules/General.py` after obtaining it. Other tools from our previous work have been compiled and included in this package. 
 
-For the current version, we assume the users are familiar with, and have access to Sun Grid Engine (SGE) computing clusters. The commands for submitting computing jobs may vary from cluster to cluster. To adapt the commands to your specific cluster environment, go to `modules/Cluster.py` and make change under the function `qsub`.
+For the current version, we assume the user are familiar with, and have access to Sun Grid Engine (SGE) computing clusters. The commands for submitting computing jobs may vary from cluster to cluster. To adapt the commands to your specific cluster environment, go to `modules/Cluster.py` and make change under the function `qsub`.
 
 MASTER (Method of Accerlerated Search for Tertiary Ensemble Representatives), see details at http://www.grigoryanlab.org/master/.
 
 > For our paper, we have parsed the Protein Data Bank (PDB) and created a database that enables the MASTER program to search the tertiary motifs in the queried structure. The original database can be found at: (**glab**). One can also follow our protocol at https://vimeo.com/120274509 to customize the database, such as limiting search in a subset of the PDB, or simply update the database with the latest PDB data. Once the database has been prepared, users should make sure the `--db` argument in `mutationListIteration.py` point to the path of the database.
 
-confind, a program using a Rotamer Library to define the contacting residue pairs (**glab**)
+confind, a program that identifies mutually-influencing pairs of positions in proteins (get from http://www.grigoryanlab.org/confind/)
 
-> confind comes with a rotamer library, which can be found at: (**glab**) 
+> confind comes with an appropriately pre-formatted Dubrack 2010 banckbone-dependent rotamer library, which can be found under `rotlibs` in your downloaded confind folder
 
 Once the required programs and data sources are installed, their paths should be updated in the "Interface" section of `GENERAL.py`.
 
