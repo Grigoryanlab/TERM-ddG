@@ -1,5 +1,4 @@
 import sys
-sys.path.insert(1, '/home/grigoryanlab/library/FanPythonMods/') # needed to find General if FanPythonMods is not already in the user's path
 from General import *
 import Master, Stability, Cluster, Analyze
 import pickle, shelve #  for sharing params
@@ -36,13 +35,13 @@ if args.dbl == None:
 	dblist = args.db + '/list'
 else:
 	dblist = args.dbl
-if sub.call(['perl', '-w', SB + '/copyDBLocally.pl', '-n', removePath(args.db), '-l', args.db+'/list']):
-	print('Error copying the master DB locally - aborting!')
-	exit(1)
+#if sub.call(['perl', '-w', SB + '/copyDBLocally.pl', '-n', removePath(args.db), '-l', args.db+'/list']):
+#	print('Error copying the master DB locally - aborting!')
+#	exit(1)
 
 # open the sequence database
-path_seqdb = '/home/grigoryanlab/home/jack/from-fan/Data/searchDB/statistics/bc-30-sc-20141022.peprm2.db'
-seqdb = shelve.open(path_seqdb, 'r')
+PATH_seqdb = '/home/grigoryanlab/home/jack/from-fan/Data/searchDB/statistics/bc-30-sc-20141022.peprm2.db'
+seqdb = shelve.open(PATH_seqdb, 'r')
 
 
 # run MASTER search

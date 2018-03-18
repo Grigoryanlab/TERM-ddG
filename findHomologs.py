@@ -1,5 +1,4 @@
 import sys, os
-sys.path.insert(1, '/home/grigoryanlab/library/FanPythonMods/') # needed to find General if FanPythonMods is not already in the user's path
 from Analyze import createHomoProfile
 
 def main():

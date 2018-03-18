@@ -155,44 +155,44 @@ def contactList(profile, resnum, cid = '', outFile = None, dmin = 0.01, dmax = 1
     return cons, conress
 
 
-def replaceBfactor (pdbf, outf, dataf, res_col = 2, score_col = -1):
-    '''<pdbf> pdb file
-    <outf> output file, with B-factor filled with other metrics
-    <file> a file with numerical data by residues
-    <res_col> the column with residue information
-    <score_col> the column with scores to fill in
-    <cid> if False, only need to match residue number
-    '''
-    with open(pdbf) as pf, open(dataf) as df, open(outf, 'w') as of:
-        
-        dat = {}
-        for dl in df:
-            dlspl = dl.split()
-            resinfo = dlspl[res_col]
-            dat[resinfo] = dlspl[score_col].strip()
-            break
-
-        for pl in pf:
-            pl = pl.rstrip('\n')
-            if pl[0:4] != 'ATOM':
-                continue  
-            # find cid and resnum
-            plspl = pl.split()
-            cid, resnum = pl[21].strip(), pl[22:27].strip()
-
-            if (cid + resnum in dat) == False:
-                bfact = ''.rjust(6)
-            else:
-                bfact = ('%.3f' % float(dat[cidc + resnum])).rjust(6)
-                    
-            # b-factor is from 61-66
-            if len(pl) > 60:
-                left = pl[0:60]          
-                right = pl[66:]
-                of.write(left + bfact + right + '\n')
-            if len(pl) <= 60:
-                left = pl.ljust(60)
-                of.write(left + bfact + '\n')
+# def replaceBfactor (pdbf, outf, dataf, res_col = 2, score_col = -1):
+#     '''<pdbf> pdb file
+#     <outf> output file, with B-factor filled with other metrics
+#     <file> a file with numerical data by residues
+#     <res_col> the column with residue information
+#     <score_col> the column with scores to fill in
+#     <cid> if False, only need to match residue number
+#     '''
+#     with open(pdbf) as pf, open(dataf) as df, open(outf, 'w') as of:
+#
+#         dat = {}
+#         for dl in df:
+#             dlspl = dl.split()
+#             resinfo = dlspl[res_col]
+#             dat[resinfo] = dlspl[score_col].strip()
+#             break
+#
+#         for pl in pf:
+#             pl = pl.rstrip('\n')
+#             if pl[0:4] != 'ATOM':
+#                 continue
+#             # find cid and resnum
+#             plspl = pl.split()
+#             cid, resnum = pl[21].strip(), pl[22:27].strip()
+#
+#             if (cid + resnum in dat) == False:
+#                 bfact = ''.rjust(6)
+#             else:
+#                 bfact = ('%.3f' % float(dat[cidc + resnum])).rjust(6)
+#
+#             # b-factor is from 61-66
+#             if len(pl) > 60:
+#                 left = pl[0:60]
+#                 right = pl[66:]
+#                 of.write(left + bfact + right + '\n')
+#             if len(pl) <= 60:
+#                 left = pl.ljust(60)
+#                 of.write(left + bfact + '\n')
 
 def adhocCentralResidue(dirname, head, rlist):
     nhits = []

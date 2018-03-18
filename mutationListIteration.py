@@ -1,7 +1,6 @@
 __author__ = 'fanzheng'
 
 import sys
-#sys.path.insert(1, '/home/grigoryanlab/library/FanPythonMods/') # needed to find General if FanPythonMods is not already in the user's path
 from General import *
 import Terms, Master, Stability, Cluster, Analyze
 import pickle, itertools
@@ -229,5 +228,5 @@ while Ncon <= args.c3:
 # wait all jobs to finish
 success = Cluster.waitJobs(jobs, type='dict', giveup_time=1, sleep_time=0)
 if not success:
-    print('ERROR: Some scripts did not run successfully')
-    exit(1)
+	print('ERROR: Some scripts did not run successfully')
+	exit(1)

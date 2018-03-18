@@ -11,7 +11,7 @@ tstart = cputime;
 %% read input
 disp(strcat('start ', dirname));
 
-conpot = '/home/anthill/fzheng/home/Thesis/Data/searchDB/contactPotential/conpot.free.dun.list';
+conpot = 'conpot.free.dun.list';
 if ~isempty(contactPotential)
     conpot = contactPotential;
 end

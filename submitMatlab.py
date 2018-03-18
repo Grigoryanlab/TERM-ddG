@@ -1,7 +1,6 @@
 __author__ = 'fanzheng'
 
 import sys
-sys.path.insert(1, '/home/grigoryanlab/library/FanPythonMods/') # needed to find General if FanPythonMods is not already in the user's path
 from General import *
 import PDB, Cluster, Stability
 from scipy.io import loadmat

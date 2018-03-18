@@ -62,9 +62,9 @@ def t2s (res):
     return aaa2a[res]
 
 
-def getResid(res):
-    '''<res> an Prody object'''
-    return res.getChid() + str(res.getResnum()) + res.getIcode()
+# def getResid(res):
+#     '''<res> an Prody object'''
+#     return res.getChid() + str(res.getResnum()) + res.getIcode()
 
 def ConRes(pdbf):
     '''return a list of all residues'''
@@ -76,60 +76,60 @@ def ConRes(pdbf):
     return residues
 
 
-def ConResDict(pdbf):
-    '''return a dictionary of all residues'''
-    mol = parsePDB(pdbf, model=1)
-    residues = {}
-    for res in mol.iterResidues():
-        if res.getResname() in aaa2a:
-            resid = getResid(res)
-            residues[resid] = res
-    return residues
+# def ConResDict(pdbf):
+#     '''return a dictionary of all residues'''
+#     mol = parsePDB(pdbf, model=1)
+#     residues = {}
+#     for res in mol.iterResidues():
+#         if res.getResname() in aaa2a:
+#             resid = getResid(res)
+#             residues[resid] = res
+#     return residues
 
     
-def getResByInd(pdbf, cid, resn, mode = 1):
-    '''mode 1 uses resnum, mode 2 uses iresnum (the i-th residue in the input structure); 
-    if not find, will return None'''
-    atoms = parsePDB(pdbf, model=1)
-    res = None # if not find, will return None
-    for ires in atoms.iterResidues():
-        if mode == 1:
-            if (str(ires.getResnum()) + ires.getIcode() == resn) and (ires.getChid() == cid):
-                res = ires
-                break
-        if mode == 2:
-            resn = int(resn)
-            if (ires.getResindex() == resn-1) and (mode == 2):
-                res = ires
-                break
-    return res
+# def getResByInd(pdbf, cid, resn, mode = 1):
+#     '''mode 1 uses resnum, mode 2 uses iresnum (the i-th residue in the input structure);
+#     if not find, will return None'''
+#     atoms = parsePDB(pdbf, model=1)
+#     res = None # if not find, will return None
+#     for ires in atoms.iterResidues():
+#         if mode == 1:
+#             if (str(ires.getResnum()) + ires.getIcode() == resn) and (ires.getChid() == cid):
+#                 res = ires
+#                 break
+#         if mode == 2:
+#             resn = int(resn)
+#             if (ires.getResindex() == resn-1) and (mode == 2):
+#                 res = ires
+#                 break
+#     return res
 
 
-def printAllResid(pdbf):
-    ''' print all residue names to a file '''
-    atoms = parsePDB(pdbf, model=1)
-    out = changeExt(pdbf, 'res')
-    with open(out, 'w') as of:
-        for ires in atoms.iterResidues():
-            outstr = str(ires.getChid()) + ',' + str(ires.getResnum()) + ires.getIcode()
-            of.write(outstr + '\n')
+# def printAllResid(pdbf):
+#     ''' print all residue names to a file '''
+#     atoms = parsePDB(pdbf, model=1)
+#     out = changeExt(pdbf, 'res')
+#     with open(out, 'w') as of:
+#         for ires in atoms.iterResidues():
+#             outstr = str(ires.getChid()) + ',' + str(ires.getResnum()) + ires.getIcode()
+#             of.write(outstr + '\n')
 
 
-def findPositionInPDB(pdbf, resn, cid = None):
-    '''return the index of given residue (iresnum) in the given pdb fragment (start from 1)
-    <cid> If not provided, look for the first residue with the correct residue number.
-    return -1 if not find
-    '''
-    atoms = parsePDB(pdbf, model=1)
-    i = 0
-    for ires in atoms.iterResidues():
-        if str(ires.getResnum()) + ires.getIcode() == str(resn):
-            if cid == None:
-                return i+1
-            elif ires.getChid() == cid:
-                return i+1
-        i += 1
-    return -1 # if not find, return -1
+# def findPositionInPDB(pdbf, resn, cid = None):
+#     '''return the index of given residue (iresnum) in the given pdb fragment (start from 1)
+#     <cid> If not provided, look for the first residue with the correct residue number.
+#     return -1 if not find
+#     '''
+#     atoms = parsePDB(pdbf, model=1)
+#     i = 0
+#     for ires in atoms.iterResidues():
+#         if str(ires.getResnum()) + ires.getIcode() == str(resn):
+#             if cid == None:
+#                 return i+1
+#             elif ires.getChid() == cid:
+#                 return i+1
+#         i += 1
+#     return -1 # if not find, return -1
 
 
 def pdb2seq(pdbf, seqres = False):
@@ -158,16 +158,16 @@ def pdb2seq(pdbf, seqres = False):
     return seqs
   
 
-def renumber(pdbf, opdbf):
-    p = parsePDB(pdbf).select('protein').copy()
-    ind = 0
-    lastCh = ''
-    for r in p.iterResidues():
-        Chid = r.getChid()
-        if Chid != lastCh:
-            ind = 0
-            lastCh = Chid
-        ind += 1
-        r.setResnum(ind)
-        r.setIcode('')
-    writePDB(opdbf, p)
+# def renumber(pdbf, opdbf):
+#     p = parsePDB(pdbf).select('protein').copy()
+#     ind = 0
+#     lastCh = ''
+#     for r in p.iterResidues():
+#         Chid = r.getChid()
+#         if Chid != lastCh:
+#             ind = 0
+#             lastCh = Chid
+#         ind += 1
+#         r.setResnum(ind)
+#         r.setIcode('')
+#     writePDB(opdbf, p)
