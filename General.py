@@ -5,8 +5,6 @@ import subprocess as sub
 import numpy as np
 
 # some path manipulation
-
-
 def getBase(filename):
     part = filename.rpartition('.')
     if part[0] == '':

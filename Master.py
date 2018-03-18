@@ -10,6 +10,7 @@ def confind(mbin = PATH_confind, **kwargs): # only works in python3.3
 
 
 def createPDS(mbin = PATH_master, dry = False, **kwargs):
+    silent = False
     cmd = [mbin + '/createPDS']
 
     for key, value in kwargs.iteritems():
@@ -18,14 +19,18 @@ def createPDS(mbin = PATH_master, dry = False, **kwargs):
     if dry == True:
         return ' '.join(cmd)
     else:
-#        devnull = open(os.devnull, 'w')
-        sub.call(cmd, stdout=devnull)
-#        devnull.close()
+        if (silent):
+            devnull = open(os.devnull, 'w')
+            sub.call(cmd, stdout=devnull)
+            devnull.close()
+        else:
+            sub.call(cmd)
         
 
 def masterSearch (mbin = PATH_master, dry = False, rmsdcut = 2.0, bbrmsd = True, **kwargs):
     '''most arguments is the same with master program; if dry is True, have a dry run, only return the command'''
         
+    silent = False
     cmd = [mbin + '/master']
         
     cmd.extend(['--rmsdCut', str(rmsdcut)])
@@ -38,9 +43,12 @@ def masterSearch (mbin = PATH_master, dry = False, rmsdcut = 2.0, bbrmsd = True,
     if dry == True:
         return ' '.join(cmd)
     else:
-#        devnull = open(os.devnull, 'w')
-        sub.call(cmd, stdout=devnull)
-#        devnull.close()
+        if (silent):
+            devnull = open(os.devnull, 'w')
+            sub.call(cmd, stdout=devnull)
+            devnull.close()
+        else:
+            sub.call(cmd)
 
 
 def matchInFile(mbin = PATH_master, dry = False, otype = 'match', **kwargs):
