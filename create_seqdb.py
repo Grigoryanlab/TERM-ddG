@@ -2,17 +2,20 @@ import os, sys, shelve
 import General, PDB
 
 if len(sys.argv) - 1 != 2:
-        print '<usage> [a list of pdb files] [output shelve .db file]'
+        print '<usage> [path to MASTER database list] [output FASTA file]'
         exit(0)
 
-lst, shelve_db = sys.argv[1:]
+lst, fasta_db = sys.argv[1:]
 
-# out = open(fasta, 'w')
-db = shelve.open(shelve_db)
+out = open(fasta_db, 'w')
+tmppdbf = '/tmp/tmp.%d.pdb' % os.getpid()
 for l in open(lst):
-        pdbf = l.strip()
-        name = General.getBase(General.removePath(pdbf))
-        seqs = PDB.pdb2seq(pdbf)
-        for c in seqs: # because only single chain
-                db[name] = seqs[c]
-db.close()
+        pdsf = l.strip()
+        name = General.getBase(General.removePath(pdsf))
+        os.system(General.PATH_master + "/parsePDS --pds " + pdsf + " --pdb " + tmppdbf)
+        seqs = PDB.pdb2seq(tmppdbf)
+        for c in seqs:
+                out.write('>' + name+'_' + ('' if (len(seqs) == 1) else c) +'\n')
+                out.write(seqs[c]+'\n')
+out.close()
+os.remove(tmppdbf)

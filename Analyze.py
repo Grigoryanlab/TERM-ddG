@@ -96,25 +96,6 @@ def index_from_match(line):
     return ilist
 
 
-def createHomoProfile(fastaf, outf):
-    blastout = changeExt(fastaf, 'blastout')
-    cmd = PATH_blast + '/blastpgp -d /home/grigoryanlab/home/jack/from-fan/Data/blast/db/pdbaa/pdbaa -i ' + fastaf + ' -b 0 -e 1.0 -v 10000 -o ' + blastout
-    os.system(cmd)
-    with open(blastout) as bo, open(outf, 'w') as hf:
-        homologs =[]
-        for bl in bo:
-            if bl.startswith('Query'):
-                if len(homologs) > 0:
-                    hf.write(' '.join(homologs) + '\n')
-                homologs = []
-                homologs.append(bl.strip().split()[-1])
-            elif bl.startswith('pdb'):
-                pid, chain = bl.split()[0].split('|')[1:]
-                pid = pid.lower()
-                homologs.append(pid + '_' + chain)
-            hf.write(' '.join(homologs) + '\n')
-
-
 def findHomo(homof, type = 1):
     with open(homof) as hf:
         if type == 1:

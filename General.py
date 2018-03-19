@@ -104,7 +104,6 @@ def carefulImport(mod):
 
 ### Interface ###
 # provide interface to other programs at steady paths, such as MASTER, MD, confind, Rosetta, etc.
-PATH_blast = '/home/grigoryanlab/library/blast/blast-2.2.26/bin'
 PATH_confind = '/home/anthill/fzheng/home/confind/confind'
 PATH_master = '/home/grigoryanlab/library/MASTER/bin'
 PATH_rotLib = '/home/grigoryanlab/library/confind/rotlibs/DB-2010'

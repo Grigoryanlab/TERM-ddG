@@ -119,8 +119,9 @@ def waitJobs(jobs, type = 'list', sleep_time=120, rerun_time=24, giveup_time=3, 
                         j.submit(rerun_time)
                         jobs.append(j)
                         os.chdir(odir)
+                else:
+                  time.sleep(sleep_time)
             print('Running, '+ str(len(jobs)) + ' jobs left ...')
-            time.sleep(sleep_time)
     if type == 'dict':
         assert isinstance(jobs, dict)
         while len(jobs)>0:
