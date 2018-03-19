@@ -40,7 +40,7 @@ else:
 #	exit(1)
 
 # open the sequence database
-PATH_seqdb = '/home/grigoryanlab/home/jack/from-fan/Data/searchDB/statistics/bc-30-sc-20141022.peprm2.db'
+# PATH_seqdb = '/home/grigoryanlab/home/jack/from-fan/Data/searchDB/statistics/bc-30-sc-20141022.peprm2.db'
 seqdb = shelve.open(PATH_seqdb, 'r')
 
 
