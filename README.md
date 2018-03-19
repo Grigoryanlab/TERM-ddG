@@ -24,7 +24,7 @@ This package is written in Python and MATLAB and works under a UNIX/Linux-like e
 
 > For our paper, we created a database for MASTER to search for tertiary motif sequence preferences by considering a relatively non-redundant subset of the Protein Data Bank (PDB). The specific database used in th epaper can be downloaded from the Grigoryan lab website via `rsync -varz arteni.cs.dartmouth.edu::masterDB-ddG/ /local/path`. One can also follow our protocol at https://vimeo.com/120274509 to customize the database, or simply update the database with the latest PDB data.
 
-> Whichever database you end up using, it will be important to exclude from consideration proteins closely related to the protein you are trying to run predictions on (otherwise, we think, the results will be biased). In the running instructoins, you will see how to specify which database entries are to be excluded. But to make this determination, it may be useful to have the sequences of all the protein chains in your database stored in a FASTA format. For this, we provide the script `create_seqdb.py`, which converts a MASTER database into a corresponding FASTA file. A FASTA file corresponding to the specific database we used in our paper is already included in the above download (in file `list.fasta`).
+> Whichever database you end up using, it will be important to exclude from consideration proteins closely related to the protein you are trying to run predictions for (otherwise, we think, the results will be biased). In the running instructoins, you will see how to specify database entries to be excluded. But to make the determination of what entries to exclude, it may be useful to store within a single FASTA file the sequences of all the protein chains in the MASTER database. For this, we provide the script `create_seqdb.py`, which writes a FASTA file from a MASTER database. A FASTA file corresponding to the specific database we used in our paper is already included in the above download (in file `list.fasta`).
 
 * ConFind -- a program that identifies mutually-influencing pairs of positions in proteins; download from http://www.grigoryanlab.org/confind/
 
@@ -40,7 +40,7 @@ Once the required programs and data sources are installed, their paths should be
 Because the calculation involves a large number of MASTER searches and other procedures, the code is set up to submit "jobs." By default, submitting a job just means running it locally and waiting until it finishes (i.e., running in serial), but the code also provisions the use of a Sun Grid Engine (SGE) computing cluster (i.e., where jobs are submitted to an SGE cluster and the code waits for them to finish). It is easy to generalize this to an arbitrary cluster by changing `Cluster.py`. Specifically, only functions `submit` and `checkJobRun` need to change. We recommend that you designate a new value for the member variable `type` of class `jobOnCluster` that corresponds to your specific cluster, and define a corresponding additional case in functions `submit` and `checkJobRun` to deal with that cluster.
 
 
-## Get started
+## Getting started
 
 An example of program output can be found in `data_demo`. The following instructions will show how these results can be generated from scratch.
 
@@ -55,9 +55,9 @@ An example of program output can be found in `data_demo`. The following instruct
     * experimental ddG -- this is used only for the purposes of comparing measured and computed values in the final output, so you can specify any number here and it will not affect the resulting computed ddG values.
 
 3. Run the following command:  
- `python mutationListIteration.py --l 1EY0.tab --db PATH_TO_MASTER_DB --homof S2648.homo`
+ `python mutationListIteration.py --l 1EY0.tab --db PATH_TO_MASTER_DB --homof 1EY0.homo`
 
-Here `PATH_TO_MASTER_DB` is the path to a directory with the MASTER database that you would like to use for the calculation (either the one we used in our paper, or a custom one; see above for instructions). `S2648.homo` is a file that contains information on homology within the database that is relevant for the current predictoin. Each line lists a set of chains in the database that are all homologous to the chain lister first (and thus should be ignored when predicting mutations in the first listed chain). In this case, the file contains only a single line that starts with the chain `1EY0_A`. And because our predictions here are for positions from this chain, all chains listed on the first line will be ignored.
+Here `PATH_TO_MASTER_DB` is the path to a directory with the MASTER database that you would like to use for the calculation (either the one we used in our paper, or a custom one; see above for instructions). `1EY0.homo` is a file that contains information on homology within the database that is relevant for the current predictoin. Each line lists a set of chains in the database that are all homologous to the chain lister first (and thus should be ignored when predicting mutations in the first listed chain). In this case, the file contains only a single line that starts with the chain `1EY0_A`. And because our predictions here are for positions from this chain, all chains listed on the first line will be ignored.
 
 > In general, it us up to the user to decide which homology to ignore. We have used the NCBI `blastpgb` program, with an E-value cutoff of 1.0, to generate a list of chains from our database that are too similar to the proteins we analyze. A FASTA file with all chains in the MASTER database (created via `create_seqdb.py`, see above) is very helpful for this.
 
