@@ -17,13 +17,13 @@ This package is written in Python and MATLAB and works under a UNIX/Linux-like e
 
 ### third-party programs:
 * USEARCH8.0 -- a program for rapidly finding similarities within sets of sequences (http://www.drive5.com/usearch/download.html)
-* BLAST -- ???
+* BLAST -- NCBI blast-2.2.26
 * Matlab 2015b or higher (Octave should also work, but we have not tested this extensively)
 
 ### other tools from our lab:
 * MASTER (Method of Accerlerated Search for Tertiary Ensemble Representatives); download from http://www.grigoryanlab.org/master/.
 
-> For our paper, we have parsed the Protein Data Bank (PDB) and created a database that enables the MASTER program to search the tertiary motifs in the queried structure. The original database can be found at: (**glab**). One can also follow our protocol at https://vimeo.com/120274509 to customize the database, such as limiting search in a subset of the PDB, or simply update the database with the latest PDB data.
+> For our paper, we have parsed the Protein Data Bank (PDB) and created a database that enables the MASTER program to search the tertiary motifs in the queried structure. The original database can be downloaded from the Grigoryan lab website via `rsync -varz arteni.cs.dartmouth.edu::masterDB-ddG/ /local/path`. One can also follow our protocol at https://vimeo.com/120274509 to customize the database, such as limiting search in a subset of the PDB, or simply update the database with the latest PDB data.
 
 > Whichever database you end up using, use the script `create_seqdb.py` included with this package to create **FAN TO WRITE THIS**
 
@@ -32,7 +32,7 @@ This package is written in Python and MATLAB and works under a UNIX/Linux-like e
 > confind comes with an appropriately pre-formatted Dubrack 2010 banckbone-dependent rotamer library, which can be found under `rotlibs` in your downloaded confind folder
 
 Once the required programs and data sources are installed, their paths should be updated in the "Interface" section of `General.py`. In particular, set the following variables:
-  * `PATH_blast` -- path to blastpgp binary
+  * `PATH_blast` -- path to NCBI blast `bin` directory (we tested with `blast-2.2.26`)
   * `PATH_confind` -- path to confind binary
   * `PATH_rotLib` -- path to rotamer library directory that comes with ConFind
   * `PATH_master` -- path to directory with MASTER binaries (`master` and `createPDS`)
