@@ -50,12 +50,12 @@ An example of program output can be found in `data_demo`. The following instruct
 1. Prepare a PDB file for the protein to be predicted. For example, `1EY0.pdb`. NOTE: the PDB file name cannot contain the underscore character.
 
 2. Prepare a list of point mutations. For an example, see `1EY0.s350.tab`. The should be a tab-delimited file, with the following entries on each line:
-  * the base name of the PDB file (i.e., for `1EY0.pdb` this would be `1EY0`)
-  * chain ID of the chain where the desired mutation locates
-  * wild-type amino-acid name (single-letter code). This need not necessarily match the residue name at the mutated positoin in the PDB file, and is used in defining what the mutation is (i.e., the final ddG will correspond to this being the wild type amino acid)
-  * position within the above chain that is being mutated
-  * mutated amino-acid name (single-letter code)
-  * experimental ddG -- this is used only for the purposes of comparing measured and computed values in the final output, so you can specify any number here and it will not affect the resulting computed ddG values.
+    * the base name of the PDB file (i.e., for `1EY0.pdb` this would be `1EY0`)
+    * chain ID of the chain where the desired mutation locates
+    * wild-type amino-acid name (single-letter code). This need not necessarily match the residue name at the mutated positoin in the PDB file, and is used in defining what the mutation is (i.e., the final ddG will correspond to this being the wild type amino acid)
+    * position within the above chain that is being mutated
+    * mutated amino-acid name (single-letter code)
+    * experimental ddG -- this is used only for the purposes of comparing measured and computed values in the final output, so you can specify any number here and it will not affect the resulting computed ddG values.
 
 3. Run the following command:  
  `python mutationListIteration.py --l 1EY0.s350.tab --db PATH_TO_MASTER_DB --homof S2648.homo`
@@ -68,12 +68,13 @@ Here `PATH_TO_MASTER_DB` is the path to a directory with the MASTER database tha
 
 4. The above command will perform all of the necessary database mining to enable the prediction of the desired set of ddG's. To actually compute predicted values, you will need to perform parameter optimization in Matlab via:
  `python submitMatlab.py --l 1EY0.s350.tab --o 1ey0.dat`
-  where `1ey0.dat` is the file with final results. A positive score indicates that the mutation is predicted as destabilizing. **NEED TO SPECIFY WHAT THE OUTPUTS ACTUALLY ARE**
-
-5. We also provide the option to score all amino acid at a position. For that, simply run:  
+  where `1ey0.dat` is the file with final results. Each line of the output file will first list the same fields as the input file (here `1EY0.s350.tab`), which identify the mutation in questoin, and then will provide two components of the resulting ddG prediction: the self and pair contributions, respectively (see our paper). The final ddG prediction is the sum of the two.
+  
+5. We also provide the option to score all amino acid at each position. For that, simply add the option `--scan`:
  `python submitMatlab.py --l 1EY0.s350.tab --o 1ey0.dat.scan --scan`  
- and `1ey0.dat.scan` with show the score of 20 amino acids, with the wild-type amino acid specified in column 3 assigned as zeroes, and the other amino acids are relative to the wild-type amino acid.
-> The step 5 is independent of step 4. However, if step 4 has been carried out, adding a flag `--oo` to the step 5 command will ultilize the existing results and give output much faster.
+ As in the output file above, lines in `1ey0.dat.scan` will first repeat the input-file entries, with the following 20 values representing the total predicted ddG (NOTE: no splitting into pair and self in this case) for mutating the specified wild-type amino acid to each of the 20 natural amino acids, in the order: `A`, `C`, `D`, `E`, `F`, `G`, `H`, `I`, `K`, `L`, `M`, `N`, `P`, `Q`, `R`, `S`, `T`, `V`, `W`, `Y`.
+
+> Step 5 is independent of step 4. However, if step 4 has been carried out, adding a flag `--oo` to the step 5 command will ultilize the existing results and give output much faster.
 
 ## Citations
 
