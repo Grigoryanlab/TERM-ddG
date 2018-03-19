@@ -26,7 +26,7 @@ This package is written in Python and MATLAB and works under a UNIX/Linux-like e
 > For our paper, we have parsed the Protein Data Bank (PDB) and created a database that enables the MASTER program to search the tertiary motifs in the queried structure. The original database can be downloaded from the Grigoryan lab website via `rsync -varz arteni.cs.dartmouth.edu::masterDB-ddG/ /local/path`. One can also follow our protocol at https://vimeo.com/120274509 to customize the database, such as limiting search in a subset of the PDB, or simply update the database with the latest PDB data.
 
 > Whichever database you end up using, use the script `create_seqdb.py` included with this package to create a sequence database, by running:
-`python create_seqdb.py <list> <db_file>`, where `<list>` is a text file in which each line specifies the path to each PDB file in the database. and then set `PATH_seqdb` in `General.py` to `<db_file>`.
+`python create_seqdb.py <list> <db_file>`, where `<list>` is a text file in which each line specifies the path to each PDB file in the database. Following this, set `PATH_seqdb` in `General.py` to `<db_file>`.
 
 * confind -- a program that identifies mutually-influencing pairs of positions in proteins; download from http://www.grigoryanlab.org/confind/
 
