@@ -17,23 +17,20 @@ This package is written in Python and MATLAB and works under a UNIX/Linux-like e
 
 ### third-party programs:
 * USEARCH8.0 -- a program for rapidly finding similarities within sets of sequences (http://www.drive5.com/usearch/download.html)
-* BLAST -- NCBI blast-2.2.26
 * Matlab 2015b or higher (Octave should also work, but we have not tested this extensively)
 
 ### other tools from our lab:
 * MASTER (Method of Accerlerated Search for Tertiary Ensemble Representatives); download from http://www.grigoryanlab.org/master/.
 
-> For our paper, we have parsed the Protein Data Bank (PDB) and created a database that enables the MASTER program to search the tertiary motifs in the queried structure. The original database can be downloaded from the Grigoryan lab website via `rsync -varz arteni.cs.dartmouth.edu::masterDB-ddG/ /local/path`. One can also follow our protocol at https://vimeo.com/120274509 to customize the database, such as limiting search in a subset of the PDB, or simply update the database with the latest PDB data.
+> For our paper, we created a database for MASTER to search for tertiary motif sequence preferences by considering a relatively non-redundant subset of the Protein Data Bank (PDB). The specific database used in th epaper can be downloaded from the Grigoryan lab website via `rsync -varz arteni.cs.dartmouth.edu::masterDB-ddG/ /local/path`. One can also follow our protocol at https://vimeo.com/120274509 to customize the database, or simply update the database with the latest PDB data.
 
-> Whichever database you end up using, use the script `create_seqdb.py` included with this package to create a sequence database, by running:
-`python create_seqdb.py <list> <db_file>`, where `<list>` is a text file in which each line specifies the path to each PDB file in the database. Following this, set `PATH_seqdb` in `General.py` to `<db_file>`.
+> Whichever database you end up using, it will be important to exclude from consideration proteins closely related to the protein you are trying to run predictions on (otherwise, we think, the results will be biased). In the running instructoins, you will see how to specify which database entries are to be excluded. But to make this determination, it may be useful to have the sequences of all the protein chains in your database stored in a FASTA format. For this, we provide the script `create_seqdb.py`, which converts a MASTER database into a corresponding FASTA file. A FASTA file corresponding to the specific database we used in our paper is already included in the above download (in file `list.fasta`).
 
 * ConFind -- a program that identifies mutually-influencing pairs of positions in proteins; download from http://www.grigoryanlab.org/confind/
 
 > confind comes with an appropriately pre-formatted datafile, derived from the Dubrack 2010 banckbone-dependent rotamer library, which can be found under `rotlibs` in your downloaded confind folder
 
 Once the required programs and data sources are installed, their paths should be updated in the "Interface" section of `General.py`. In particular, set the following variables:
-  * `PATH_blast` -- path to NCBI blast `bin` directory (we tested with `blast-2.2.26`)
   * `PATH_confind` -- path to confind binary
   * `PATH_rotLib` -- path to directory with rotamer rotamer info that comes with ConFind
   * `PATH_master` -- path to directory with MASTER binaries (`master` and `createPDS`)
@@ -49,7 +46,7 @@ An example of program output can be found in `data_demo`. The following instruct
 
 1. Prepare a PDB file for the protein to be predicted. For example, `1EY0.pdb`. NOTE: the PDB file name cannot contain the underscore character.
 
-2. Prepare a list of point mutations. For an example, see `1EY0.s350.tab`. The should be a tab-delimited file, with the following entries on each line:
+2. Prepare a list of point mutations. For an example, see `1EY0.tab`. The should be a tab-delimited file, with the following entries on each line:
     * the base name of the PDB file (i.e., for `1EY0.pdb` this would be `1EY0`)
     * chain ID of the chain where the desired mutation locates
     * wild-type amino-acid name (single-letter code). This need not necessarily match the residue name at the mutated positoin in the PDB file, and is used in defining what the mutation is (i.e., the final ddG will correspond to this being the wild type amino acid)
@@ -58,20 +55,18 @@ An example of program output can be found in `data_demo`. The following instruct
     * experimental ddG -- this is used only for the purposes of comparing measured and computed values in the final output, so you can specify any number here and it will not affect the resulting computed ddG values.
 
 3. Run the following command:  
- `python mutationListIteration.py --l 1EY0.s350.tab --db PATH_TO_MASTER_DB --homof S2648.homo`
+ `python mutationListIteration.py --l 1EY0.tab --db PATH_TO_MASTER_DB --homof S2648.homo`
 
-Here `PATH_TO_MASTER_DB` is the path to a directory with the MASTER database that you would like to use for the calculation (either the one we used in our paper, or a custom one; see above for instructions). `S2648.homo` is a file that contains all PDB structures 
+Here `PATH_TO_MASTER_DB` is the path to a directory with the MASTER database that you would like to use for the calculation (either the one we used in our paper, or a custom one; see above for instructions). `S2648.homo` is a file that contains information on homology within the database that is relevant for the current predictoin. Each line lists a set of chains in the database that are all homologous to the chain lister first (and thus should be ignored when predicting mutations in the first listed chain). In this case, the file contains only a single line that starts with the chain `1EY0_A`. And because our predictions here are for positions from this chain, all chains listed on the first line will be ignored.
 
-> We recommend to have a file to keep track of the PDB structures that have homologous relationships to the query protein. These PDB structures will be excluded from statistics of structure motif search. Otherwise, we believe the results will be biased. Please see the details in our paper. That is the purpose of the `--homof` flag. In `1EY0.homo` the PDB IDs following `1EY0_A` are excluded. Such results can be created from NCBI `blastpgb` program. The list here includes all PDB chains that are similar to `1EY0_A` at a cutoff e=1.0, which is consistent with the method in our paper. This step requires a sequence database corresponding to the set of structures used in MASTER search (see instructions above). 
-
-> If a customized database is used, the sequence database can be generated by the script `create_seqdb.py`. The first input argument of this script is a text file, where each line is a path to each .pdb file in the database. The `extractPDB` code in the MASTER package can convert .pds files to .pdb files. 
+> In general, it us up to the user to decide which homology to ignore. We have used the NCBI `blastpgb` program, with an E-value cutoff of 1.0, to generate a list of chains from our database that are too similar to the proteins we analyze. A FASTA file with all chains in the MASTER database (created via `create_seqdb.py`, see above) is very helpful for this.
 
 4. The above command will perform all of the necessary database mining to enable the prediction of the desired set of ddG's. To actually compute predicted values, you will need to perform parameter optimization in Matlab via:
- `python submitMatlab.py --l 1EY0.s350.tab --o 1ey0.dat`
-  where `1ey0.dat` is the file with final results. Each line of the output file will first list the same fields as the input file (here `1EY0.s350.tab`), which identify the mutation in questoin, and then will provide two components of the resulting ddG prediction: the self and pair contributions, respectively (see our paper). The final ddG prediction is the sum of the two.
+ `python submitMatlab.py --l 1EY0.tab --o 1ey0.dat`
+  where `1ey0.dat` is the file with final results. Each line of the output file will first list the same fields as the input file (here `1EY0.tab`), which identify the mutation in questoin, and then will provide two components of the resulting ddG prediction: the self and pair contributions, respectively (see our paper). The final ddG prediction is the sum of the two.
   
 5. We also provide the option to score all amino acid at each position. For that, simply add the option `--scan`:
- `python submitMatlab.py --l 1EY0.s350.tab --o 1ey0.dat.scan --scan`  
+ `python submitMatlab.py --l 1EY0.tab --o 1ey0.dat.scan --scan`  
  As in the output file above, lines in `1ey0.dat.scan` will first repeat the input-file entries, with the following 20 values representing the total predicted ddG (NOTE: no splitting into pair and self in this case) for mutating the specified wild-type amino acid to each of the 20 natural amino acids, in the order: `A`, `C`, `D`, `E`, `F`, `G`, `H`, `I`, `K`, `L`, `M`, `N`, `P`, `Q`, `R`, `S`, `T`, `V`, `W`, `Y`.
 
 > Step 5 is independent of step 4. However, if step 4 has been carried out, adding a flag `--oo` to the step 5 command will ultilize the existing results and give output much faster.
